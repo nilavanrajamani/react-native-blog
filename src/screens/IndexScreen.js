@@ -1,18 +1,25 @@
 import React, { useContext } from 'react';
-import { StyleSheet, Text, View, Button } from 'react-native';
-import BlogContext from '../context/BlogContext';
+import { StyleSheet, Text, View, Button, TouchableOpacity } from 'react-native';
+import { Context } from '../context/BlogContext';
 import { FlatList } from 'react-native-gesture-handler';
+import { Feather } from '@expo/vector-icons';
 
 export default function IndexScreen() {
-    const { data, addBlogPost } = useContext(BlogContext)
+    const { state, addBlogPost, deleteBlogPost } = useContext(Context)
     return (
         <View>
-            <Text>Index Screen</Text>
             <Button title='Add Blog Post' onPress={() => addBlogPost()} ></Button>
-            <FlatList data={data}
+            <FlatList data={state}
                 keyExtractor={(blogPost) => blogPost.title}
                 renderItem={({ item }) => {
-                    return <Text>{item.title}</Text>;
+                    return (
+                        <View style={styles.row}>
+                            <Text style={styles.title}>{item.title}</Text>
+                            <TouchableOpacity onPress={() => deleteBlogPost(item.id)}>
+                                <Feather style={styles.icon} name="trash" />
+                            </TouchableOpacity>
+                        </View>
+                    )
                 }}
             />
         </View>
@@ -20,5 +27,19 @@ export default function IndexScreen() {
 }
 
 const styles = StyleSheet.create({
-
+    row: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        paddingVertical: 20,
+        paddingHorizontal: 10,
+        borderTopWidth: 1,
+        borderBottomWidth: 1,
+        borderColor: 'gray'
+    },
+    title: {
+        fontSize: 18
+    },
+    icon: {
+        fontSize: 24
+    }
 });
