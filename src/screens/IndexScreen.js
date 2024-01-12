@@ -7,8 +7,7 @@ import { Feather } from '@expo/vector-icons';
 const IndexScreen = ({ navigation }) => {
     const { state, addBlogPost, deleteBlogPost } = useContext(Context)
     return (
-        <View>
-            <Button title='Add Blog Post' onPress={() => addBlogPost()} ></Button>
+        <View>            
             <FlatList data={state}
                 keyExtractor={(blogPost) => blogPost.title}
                 renderItem={({ item }) => {
